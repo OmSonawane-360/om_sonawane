@@ -1232,11 +1232,43 @@ function askQ(el){document.getElementById("chatIn").value=el.textContent;sendMsg
 
 /* ─── CONTACT FORM ─── */
 function hForm(e){
-  e.preventDefault();
-  const b=e.target.querySelector("button[type=submit]");
-  b.innerHTML="✓ Sent! I'll reply soon.";b.style.background="rgba(255,255,255,.12)";b.style.color="#fff";
-  setTimeout(()=>{b.innerHTML='<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Message';b.style.background="#fff";b.style.color="#000";e.target.reset();},3000);
+e.preventDefault();
+
+let form = e.target;
+
+let params = {
+name: form.querySelectorAll(".fi")[0].value,
+email: form.querySelectorAll(".fi")[1].value,
+subject: form.querySelectorAll(".fi")[2].value,
+message: form.querySelector(".ft").value
+};
+
+emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",params)
+.then(function(res){
+
+let b=form.querySelector("button");
+b.innerHTML="✓ Message Sent Successfully";
+b.style.background="#16a34a";
+b.style.color="#fff";
+
+form.reset();
+
+})
+.catch(function(err){
+alert("Mail Failed ❌");
+console.log(err);
+});
+
 }
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<script>
+(function(){
+emailjs.init("FYhSnKEX0i4ZILX5EY");
+})();
+</script>
+
 </body>
 </html>
